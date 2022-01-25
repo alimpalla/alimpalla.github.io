@@ -100,8 +100,9 @@ function update_times(times_list) {
 
 // 3. Pull Prayer Times from API
 // Current Location http://127.0.0.1:5000/return_times --> GET
+// https://alipalla.pythonanywhere.com/return_times
 function fetchData() {
-    axios.get('http://127.0.0.1:5000/return_times')
+    axios.get('https://alipalla.pythonanywhere.com/return_times')
     .then(function (response) {
         // handle success - display returned data
         // run other functions within this .then 
