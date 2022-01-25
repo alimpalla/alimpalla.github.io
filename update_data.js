@@ -55,7 +55,7 @@ function update_times(times_list) {
 
     // send each time to matching element in window
     // not sending current prayer, that varies so is dealt with later
-    $("#fajrTime").text(times_list[0]);
+    $("#fajrTime").text('TEST');
     $("#dhuhrTime").text(times_list[1])
     $("#asrTime").text(times_list[2])
     $("#maghribTime").text(times_list[3])
