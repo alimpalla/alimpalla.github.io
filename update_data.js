@@ -1,6 +1,6 @@
 /* global $ */
-import fs from 'fs';
-import axios from 'axios';
+const fs = require('fs');
+const axios = require('axios').default;
 
 // 1. Update Clock (Unused)
 // code from https://stackoverflow.com/questions/18536726/javascript-to-display-the-current-date-and-time
