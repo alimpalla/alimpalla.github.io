@@ -14,7 +14,7 @@ body {
   /* linear gradient to make background image dark*/
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("./backgrounds/background3.png");
   background-position: center; /* Center the image */
-  background-size: 70%; /* Shrink image */
+  background-size: 100%; /* Shrink image */
 
   /*background-image: url("./backgrounds/background3.jpg");*/
 
