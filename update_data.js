@@ -1,10 +1,9 @@
 /* global $ */
-import fs = from 'fs';
-import axios from 'axios';
+//import axios from 'axios';
 
 // 1. Update Clock (Unused)
 // code from https://stackoverflow.com/questions/18536726/javascript-to-display-the-current-date-and-time
-//using your function (passing in date)
+/* 
 function formatAMPM(date) {
     // gets the hours
     var hours = date.getHours();
@@ -44,7 +43,7 @@ function formatAMPM(date) {
       $("#currentDate").text(formatter.format(date));
     })
 }
-
+*/
 
 // 2. Update Prayer Time
 var saved_prayer = "";
