@@ -34,6 +34,7 @@ h3 {font-size: 3em;}
   font-weight: bold;
   font-style: italic;
   text-align: center;
+  padding-top: .0rem;
 }
 
 /* box that includes date and time */
@@ -92,7 +93,7 @@ h3 {font-size: 3em;}
   font-weight: bold;
   text-align: center;
   padding-top: .5rem;
-  font-size: 1.5em;
+  font-size: 1.3em;
 }
 
 .location {
