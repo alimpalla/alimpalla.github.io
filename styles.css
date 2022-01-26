@@ -3,7 +3,7 @@ body {
   max-width: 38rem;
   */
   font-family: 'Segoe UI', sans-serif;
-  padding-top: .2rem;
+  padding-top: .0rem;
   padding-left: 1rem;
   padding-right: 1rem;
   /*-webkit-text-stroke: 2px black; /* text border */
@@ -92,7 +92,7 @@ h3 {font-size: 3em;}
   font-weight: bold;
   text-align: center;
   padding-top: .5rem;
-  font-size: 1.25em;
+  font-size: 1.5em;
 }
 
 .location {
