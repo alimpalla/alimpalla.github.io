@@ -92,11 +92,12 @@ h3 {font-size: 3em;}
   font-family: 'Droid Arabic Naskh', serif;
   font-weight: bold;
   text-align: center;
-  padding-top: .4rem;
+  padding-top: .2rem;
   font-size: 1.3em;
 }
 
 .location {
+  padding-top: .0rem;
   text-shadow: 1px 1px black; /* text shadow */
   color: white;
   font-size: .8em;
