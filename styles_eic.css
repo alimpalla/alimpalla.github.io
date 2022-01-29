@@ -4,8 +4,8 @@ body {
   */
   font-family: 'Segoe UI', sans-serif;
   padding-top: .0rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   /*-webkit-text-stroke: 2px black; /* text border */
   background-color:black;
   /*color: white;*/
@@ -24,7 +24,7 @@ body {
 h1 {font-size: 6.5em;}
 h2 {font-size: 4.5em;}
 h3 {font-size: 3em;}
-h4 {font-size: 2em;} /* used for start/end times */
+h4 {font-size: 2em; padding:.5rem; margin:0;} /* used for start/end times */
 
 /* empty box top of page for spacing */
 
@@ -72,11 +72,10 @@ h4 {font-size: 2em;} /* used for start/end times */
 .box {
   /* float: left; */
   /* padding: 1rem; */
-  vertical-align: top;
+  vertical-align: middle;
   /* border: 1px solid white; */
   background: rgba(255, 250, 250, 0.6);
   color: rgba(0, 0, 0, 0.8);
-  
 }
 
 /* unique formatting for current prayer */
@@ -87,28 +86,54 @@ h4 {font-size: 2em;} /* used for start/end times */
   background-color: rgba(245,245,245, 1);
   color: rgba(0, 0, 0, 1);
   height: 17rem;
+  vertical-align: middle;
 }
 
 .prayerName {
   font-weight: bold;
   font-style: italic;
-  font-size: 3em;
+  font-size: 3.2em;
 }
 
 .prayerTime {
   font-weight: bold;
-  font-size: 3em;
+  font-size: 2.8em;
 }
 
 .startEnd {
   font-weight: bold;
   font-size: 2em;
-  color: rgba(0, 0, 0, 0.8)
+  color: rgba(0, 0, 0, 0.8);
+  padding-top: 1.2rem;
+}
+
+.timeColumn {
+  text-align: right;
+  float: left;
+  width: 30%;
+}
+
+.khateebColumn {
+  float: right;
+  width: 70%;
+}
+
+.jummahTime {
+  font-size: 1.5em;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: bold;
+}
+
+.khateebName {
+  font-size: 1.5em;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .announcementBox {
   color: white;
-  font-size: 2em;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 1.5em;
   /* background-color: rgba(245,245,245, 1); */
 }
 

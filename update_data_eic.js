@@ -6,7 +6,6 @@
 
 // 1. Update Clock (Unused)
 // code from https://stackoverflow.com/questions/18536726/javascript-to-display-the-current-date-and-time
-/* 
 function formatAMPM(date) {
     // gets the hours
     var hours = date.getHours();
@@ -43,10 +42,8 @@ function formatAMPM(date) {
     $(() => {
       //the result
       $("#currentTime").text(time);
-      $("#currentDate").text(formatter.format(date));
     })
 }
-*/
 
 // 2. Update Prayer Time
 var saved_prayer = "";
@@ -80,7 +77,7 @@ function temp_update() {
     $("#asrTime").text('3:00pm')
     $("#maghribTime").text('5:30pm')
     $("#ishaTime").text('7:00pm')
-    $("#currentTime").text("12:00am")
+    //$("#currentTime").text("12:00am")
     $("#locationName").text("EIC")
     $("#nextPrayer").text("Fajr")
     $("#timeToNext").text("10 hours and 5 minutes")
@@ -113,13 +110,16 @@ function fetchData() {
 }
 
 //fetchData()
-
+formatAMPM(new Date())
 temp_update()
 
 // Refresh Times Every 10s
 setInterval(function() {
   //fetchData()
+  formatAMPM(new Date())
 }, 10 * 1000); // 10 * 1000 milsec */
+
+
 
 /* Sample of information pulled from API for reference
 {
