@@ -54,7 +54,7 @@ h4 {font-size: 2em;} /* used for start/end times */
   text-align: center;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 16rem;
+  grid-auto-rows: 17rem;
   gap: 30px 20px;
   /* width: 100%;
   max-width: 37.5rem;
@@ -86,7 +86,7 @@ h4 {font-size: 2em;} /* used for start/end times */
   border-color: whitesmoke;
   background-color: rgba(245,245,245, 1);
   color: rgba(0, 0, 0, 1);
-  height: 16rem;
+  height: 17rem;
 }
 
 .prayerName {
@@ -103,6 +103,13 @@ h4 {font-size: 2em;} /* used for start/end times */
 .startEnd {
   font-weight: bold;
   font-size: 2em;
+  color: rgba(0, 0, 0, 0.8)
+}
+
+.announcementBox {
+  color: white;
+  font-size: 2em;
+  /* background-color: rgba(245,245,245, 1); */
 }
 
 .arabicBox {
