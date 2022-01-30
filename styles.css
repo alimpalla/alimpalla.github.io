@@ -58,7 +58,7 @@ h3 {font-size: 3em;}
   display: flex;
 }
 
-/* Create three equal columns that floats next to each other */
+/* Create five equal columns that floats next to each other */
 .column {
   float: left;
   width: 20%;

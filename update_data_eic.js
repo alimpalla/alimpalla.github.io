@@ -7,42 +7,24 @@
 // 1. Update Clock (Unused)
 // code from https://stackoverflow.com/questions/18536726/javascript-to-display-the-current-date-and-time
 function formatAMPM(date) {
-    // gets the hours
-    var hours = date.getHours();
-    // gets the day
-    var days = date.getDay();
-    // gets the month
-    var minutes = date.getMinutes();
-    // gets AM/PM
-    var ampm = hours >= 12 ? 'pm' : 'am';
-    // converts hours to 12 hour instead of 24 hour
-    hours = hours % 12;
-    // converts 0 (midnight) to 12
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    // converts minutes to have leading 0
-    minutes = minutes < 10 ? '0'+ minutes : minutes;
   
-    // the time string
-    var time = hours + ':' + minutes + ampm;
+  // get the date as a string
+  // output: 
+  var options = {timeZone: "America/Los_Angeles",  day: 'numeric', year: 'numeric', month: 'short'};
+  var date_str = date.toLocaleString("en-US", options);
+
+  // get the time as a string
+  //output: 10:20pm
+  var options = {timeZone: "America/Los_Angeles", hour: '2-digit', minute: '2-digit'};
+  var time = date.toLocaleTimeString("en-US", options).toLocaleLowerCase().replace(/\s/g,'');
   
 
-    let formatter = Intl.DateTimeFormat(
-        "default", // a locale name; "default" chooses automatically
-        {
-            weekday: "short", 
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-        }
-    );
 
-    // gets the match for the date string we want
-    var match = date.toString().match(/\w{3} \w{3} \d{1,2} \d{4}/);
-  
-    $(() => {
-      //the result
-      $("#currentTime").text(time);
-    })
+  $(() => {
+    //the result
+    $("#currentTime").text(time);
+    $("#currentDate").text(date_str);
+  })
 }
 
 // 2. Update Prayer Time
@@ -110,14 +92,13 @@ function fetchData() {
 }
 
 //fetchData()
-formatAMPM(new Date())
+formatAMPM(new Date());
 temp_update()
 
-// Refresh Times Every 10s
+// Refresh Time Every 1s
 setInterval(function() {
-  //fetchData()
-  formatAMPM(new Date())
-}, 10 * 1000); // 10 * 1000 milsec */
+  formatAMPM(new Date());
+}, 1 * 1000); // 1 * 1000 milsec */
 
 
 
