@@ -36,17 +36,28 @@ function update_times(times_dict) {
 
     // send each time to matching element in window
     // not sending current prayer, that varies so is dealt with later
+    $("#fajrStart").text(times_dict.fajr_start)
     $("#fajrTime").text(times_dict.fajr)
-    $("#dhuhrTime").text(times_dict.dhuhr)
+    $("#fajrEnd").text(times_dict.fajr_stop)
+
+    $("#dhuhrStart").text(times_dict.duhr_start)
+    $("#dhuhrTime").text(times_dict.duhr)
+    $("#dhuhrEnd").text(times_dict.duhr_stop)
+
+    $("#asrStart").text(times_dict.asr_start)
     $("#asrTime").text(times_dict.asr)
+    $("#asrEnd").text(times_dict.asr_stop)
+
+    $("#maghribStart").text(times_dict.maghrib_start)
     $("#maghribTime").text(times_dict.maghrib)
+    $("#maghribEnd").text(times_dict.maghrib_stop)
+
+    $("#ishaStart").text(times_dict.isha_start)
     $("#ishaTime").text(times_dict.isha)
-    $("#currentTime").text("12:00am")
-    $("#locationName").text("EIC")
-    $("#nextPrayer").text("Fajr")
-    $("#timeToNext").text("10 hours and 5 minutes")
-    $("#currentPrayer").text("It's Currently ".concat("Isha"));
-    //document.getElementById("Isha").classList.add("currentPrayerBox");
+
+    document.getElementById("Isha").classList.add("currentPrayerBox");
+    document.getElementById("Fajr").classList.add("nextPrayerBox");
+
   })
 }
 
@@ -60,10 +71,6 @@ function temp_update() {
     $("#maghribTime").text('5:30pm')
     $("#ishaTime").text('7:00pm')
     //$("#currentTime").text("12:00am")
-    $("#locationName").text("EIC")
-    $("#nextPrayer").text("Fajr")
-    $("#timeToNext").text("10 hours and 5 minutes")
-    $("#currentPrayer").text("It's Currently ".concat("Isha"));
     document.getElementById("Isha").classList.add("currentPrayerBox");
   })
 }
@@ -72,7 +79,7 @@ function temp_update() {
 // https://www.eicsanjose.org/wp/iqamah_api.php?salat_date=2022-01-28 
 //     --> GET (change date)
 function fetchData() {
-  axios.get('https://www.eicsanjose.org/wp/iqamah_api.php?salat_date=2022-01-28')
+  axios.get('http://127.0.0.1:5000/return_times_eic')
   .then(function (response) {
       // handle success - display returned data
       // run other functions within this .then 
@@ -80,7 +87,7 @@ function fetchData() {
       //console.log(response);
       times_dict = response.data;
       //console.log(times_dict.fajr_time);
-      //update_times(times_dict)
+      update_times(times_dict)
   })
   .catch(function (error) {
       // handle error
@@ -91,9 +98,9 @@ function fetchData() {
   });
 }
 
-//fetchData()
+fetchData()
 formatAMPM(new Date());
-temp_update()
+//temp_update()
 
 // Refresh Time Every 1s
 setInterval(function() {
