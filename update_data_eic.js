@@ -18,13 +18,13 @@ function formatAMPM(date) {
   var options = {timeZone: "America/Los_Angeles", hour: '2-digit', minute: '2-digit'};
   var time = date.toLocaleTimeString("en-US", options).toLocaleLowerCase().replace(/\s/g,'');
   
-
-
   $(() => {
     //the result
     $("#currentTime").text(time);
     $("#currentDate").text(date_str);
   })
+
+  return time;
 }
 
 // 2. Update Prayer Time
@@ -55,7 +55,10 @@ function update_times(times_dict) {
     $("#ishaStart").text(times_dict.isha_start)
     $("#ishaTime").text(times_dict.isha)
 
-    document.getElementById("Isha").classList.add("currentPrayerBox");
+    $("#timeToNext").text(times_dict.time_to_next)
+    $("#nextPrayer").text(times_dict.next_prayer)
+
+    document.getElementById(times_dict.current_prayer).classList.add("currentPrayerBox");
     //document.getElementById("Fajr").classList.add("nextPrayerBox");
 
   })
@@ -78,9 +81,23 @@ function temp_update() {
 // 3. Pull Prayer Times from EIC API
 // https://www.eicsanjose.org/wp/iqamah_api.php 
 //     --> GET (change date)
-function fetchData() {
+function fetchData(time_str) {
+  // axios.get('https://www.eicsanjose.org/wp/iqamah_api.php')
+  // .then(function (response) {
+  //     // handle success - display returned data
+  //     // run other functions within this .then 
+  //     //     due to async
+  //     //console.log(response);
+  //     input_data = response.data;
+  // })
+  // .catch(function (error) {
+  //   // handle error with dummy data
+    
+  // })
+  // .then(function () {
+  //     // always executed
+  // });
 
-  // for now use input data, eventually replace with pulling data from eic api
   input_data = {
     "date_input": "2022-01-30",
     "salat_date": "2022-01-30",
@@ -101,8 +118,8 @@ function fetchData() {
     "isha_stop": "12:00"
   }
 
-  // send eic api data to my api to update it
-  axios.post('https://alipalla.pythonanywhere.com/return_times_eic', input_data)
+  // send eic api data to my api to update it https://alipalla.pythonanywhere.com/return_times_eic 
+  axios.post('http://127.0.0.1:5000/return_times_eic', input_data)
   .then(function (response) {
       // handle success - display returned data
       // run other functions within this .then 
@@ -121,13 +138,14 @@ function fetchData() {
   });
 }
 
+time_str = formatAMPM(new Date());
 fetchData()
-formatAMPM(new Date());
 //temp_update()
 
 // Refresh Time Every 1s
 setInterval(function() {
   formatAMPM(new Date());
+  fetchData()
 }, 1 * 1000); // 1 * 1000 milsec */
 
 
