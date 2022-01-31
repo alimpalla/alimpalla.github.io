@@ -119,7 +119,7 @@ function fetchData(time_str) {
   }
 
   // send eic api data to my api to update it https://alipalla.pythonanywhere.com/return_times_eic 
-  axios.post('http://127.0.0.1:5000/return_times_eic', input_data)
+  axios.post('https://alipalla.pythonanywhere.com/return_times_eic', input_data)
   .then(function (response) {
       // handle success - display returned data
       // run other functions within this .then 
