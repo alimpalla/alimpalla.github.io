@@ -65,4 +65,39 @@ function getDateTime(date) {
 
 } 
 
-console.log(getDateTime(new Date()))
+// console.log(getDateTime(new Date()))
+
+let test_str = ("12:56");
+
+function hour_format (input_time) {
+  let hour = parseInt(input_time.split(':')[0])
+  if (hour == 0) {
+    return `${hour + 12}:${input_time.split(':')[1]}am`
+  } else if (hour < 12) {
+    return `${hour}:${input_time.split(':')[1]}am`
+  } else if (hour == 12)  {
+    return `${hour}:${input_time.split(':')[1]}pm`
+  } else {
+    return `${hour - 12}:${input_time.split(':')[1]}pm`
+  }
+}
+
+let temp_dict = {
+  Fajr: '05:52',
+  Sunrise: '07:03',
+  Dhuhr: '12:56',
+  Asr: '17:06',
+  Sunset: '18:49',
+  Maghrib: '18:49',
+  Isha: '20:00',
+  Imsak: '05:42',
+  Midnight: '00:56',
+  Firstthird: '22:54',
+  Lastthird: '02:59'
+}
+
+console.log(hour_format(temp_dict["Fajr"]))
+console.log(hour_format(temp_dict["Dhuhr"]))
+console.log(hour_format(temp_dict["Asr"]))
+console.log(hour_format(temp_dict["Midnight"]))
+console.log(hour_format(temp_dict["Isha"]))

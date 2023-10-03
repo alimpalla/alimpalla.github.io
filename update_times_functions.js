@@ -18,41 +18,17 @@ function reformat_times_dict(input_dict) {
         //pass 
     }
 
-    input_dict["fajr_start"] = input_dict["fajr_start"].concat("am");
-    input_dict["fajr"] = input_dict["fajr"].concat("am");
-    input_dict["fajr_stop"] = input_dict["fajr_stop"].concat("am");
+    input_dict["Fajr"] = input_dict["Fajr"].concat("am");
 
-
-    if ((parseInt(input_dict['duhr_start'].split(':')[0])) >= 10 && (parseInt(input_dict['duhr_start'].split(':')[0]) < 12)) {
-        input_dict["duhr_start"] = input_dict["duhr_start"].concat("am");
-    } else {
-        input_dict["duhr_start"] = input_dict["duhr_start"].concat("pm");
-    }
-
-    if ((parseInt(input_dict['duhr'].split(':')[0])) >= 10 && (parseInt(input_dict['duhr'].split(':')[0]) < 12)) {
-        input_dict["duhr"] = input_dict["duhr"].concat("am");
-    } else {
-        input_dict["duhr"] = input_dict["duhr"].concat("pm");
-    }
-    input_dict["duhr_stop"] = input_dict["duhr_stop"].concat("pm");
-
-    input_dict["asr_start"] = input_dict["asr_start"].concat("pm");
-    input_dict["asr"] = input_dict["asr"].concat("pm");
-    input_dict["asr_stop"] = input_dict["asr_stop"].concat("pm");
-
-    input_dict["maghrib_start"] = input_dict["maghrib_start"].concat("pm");
-    input_dict["maghrib"] = input_dict["maghrib"].concat("pm");
-    input_dict["maghrib_stop"] = input_dict["maghrib_stop"].concat("pm");
-
-    input_dict["isha_start"] = input_dict["isha_start"].concat("pm");
-    input_dict["isha"] = input_dict["isha"].concat("pm");
-    input_dict["isha_stop"] = input_dict["fajr_start"];
+    input_dict["Asr"] = input_dict["Asr"].concat("pm");
+    input_dict["Maghrib"] = input_dict["Maghrib"].concat("pm");
+    input_dict["Isha"] = input_dict["Isha"].concat("pm");
     
     return input_dict;
 }
 
 // converts individual time with am/pm into number of minutes after 12am
-function convert_to_minutes(input_time) {
+function convert_time(input_time) {
 
     // console.log(input_time)
     ampm = (input_time.split(':')[1]).slice(2,4);
@@ -74,8 +50,19 @@ function convert_to_minutes(input_time) {
     return (hour * 60 + minutes)
 }
 
-// converts 24ht time into am/pm
-
+// converts 24hr time to 12hr time
+function hour_format (input_time) {
+    let hour = parseInt(input_time.split(':')[0])
+    if (hour == 0) {
+      return `${hour + 12}:${input_time.split(':')[1]}am`
+    } else if (hour < 12) {
+      return `${hour}:${input_time.split(':')[1]}am`
+    } else if (hour == 12)  {
+      return `${hour}:${input_time.split(':')[1]}pm`
+    } else {
+      return `${hour - 12}:${input_time.split(':')[1]}pm`
+    }
+}
 
 // converts time to next prayer from minutes to readable format
 function convert_time_to_next(time_to_next) {
@@ -115,11 +102,11 @@ function get_current_prayer(input_dict, time_str) {
     let current_time = convert_time(time_str);
     // generate times for each prayer
     let fajr_time = convert_time(input_dict['Fajr']);
-    let sunrise_time = convert_time(input_dict['fajr_stop']);
-    let dhuhr_time = convert_time(input_dict['duhr_start']);
-    let asr_time = convert_time(input_dict['asr_start']);
-    let maghrib_time = convert_time(input_dict['maghrib_start']);
-    let isha_time = convert_time(input_dict['isha_start']);
+    let sunrise_time = convert_time(input_dict['Sunrise']);
+    let dhuhr_time = convert_time(input_dict['Dhuhr']);
+    let asr_time = convert_time(input_dict['Asr']);
+    let maghrib_time = convert_time(input_dict['Maghrib']);
+    let isha_time = convert_time(input_dict['Isha']);
 
     // use times from above to determine current prayer and next jamat
     // if before midnight, use diff method to determine time_to_next
