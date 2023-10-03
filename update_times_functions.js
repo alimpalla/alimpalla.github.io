@@ -1,10 +1,9 @@
 
-/* input_data = {"date_input": "2022-01-30", "salat_date": "2022-01-30",
-    "fajr_start": "5:58", "fajr": "6:30", "fajr_stop": "7:13",
-    "duhr_start": "12:21", "duhr": "1:30", "duhr_stop": "3:50",
-    "asr_start": "3:50", "asr": "4:00", "asr_stop": "5:32",
-    "maghrib_start": "5:32", "maghrib": "5:32", "maghrib_stop": "6:44",
-    "isha_start": "6:44", "isha": "8:00", "isha_stop": "12:00"} 
+/* {
+  Fajr: '05:52', Sunrise: '07:03', Dhuhr: '12:56', Asr: '17:06',
+  Sunset: '18:49', Maghrib: '18:49', Isha: '20:00', Imsak: '05:42',
+  Midnight: '00:56', Firstthird: '22:54', Lastthird: '02:59'
+}
 */
 
 // reformats dictionary of times to include am/pm
@@ -53,7 +52,7 @@ function reformat_times_dict(input_dict) {
 }
 
 // converts individual time with am/pm into number of minutes after 12am
-function convert_time(input_time) {
+function convert_to_minutes(input_time) {
 
     // console.log(input_time)
     ampm = (input_time.split(':')[1]).slice(2,4);
@@ -74,6 +73,9 @@ function convert_time(input_time) {
 
     return (hour * 60 + minutes)
 }
+
+// converts 24ht time into am/pm
+
 
 // converts time to next prayer from minutes to readable format
 function convert_time_to_next(time_to_next) {
@@ -112,20 +114,16 @@ function get_current_prayer(input_dict, time_str) {
     // get current time
     let current_time = convert_time(time_str);
     // generate times for each prayer
-    let fajr_time = convert_time(input_dict['fajr_start']);
-    let fajr_iqamah = convert_time(input_dict['fajr']);
+    let fajr_time = convert_time(input_dict['Fajr']);
     let sunrise_time = convert_time(input_dict['fajr_stop']);
     let dhuhr_time = convert_time(input_dict['duhr_start']);
-    let dhuhr_iqamah = convert_time(input_dict['duhr']);
     let asr_time = convert_time(input_dict['asr_start']);
-    let asr_iqamah = convert_time(input_dict['asr']);
     let maghrib_time = convert_time(input_dict['maghrib_start']);
     let isha_time = convert_time(input_dict['isha_start']);
-    let isha_iqamah = convert_time(input_dict['isha']);
 
     // use times from above to determine current prayer and next jamat
     // if before midnight, use diff method to determine time_to_next
-    if ((current_time >= isha_time) && (current_time >= isha_iqamah)){
+    if (current_time >= isha_time) {
         var current_prayer = 'Isha';
         var next_prayer = 'Fajr';
         var time_to_next = fajr_iqamah + (24 * 60 - current_time);
