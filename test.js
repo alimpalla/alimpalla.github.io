@@ -4,6 +4,11 @@ const axios = require("axios").default;
 // const $ = require('jquery');
 const fetch = require('node-fetch');
 
+const adhan = require('adhan');
+const moment = require('moment-timezone');
+
+
+
 function fetchData() {
 
   fetch('https://https://alipalla.pythonanywhere.com/return_times')
@@ -96,8 +101,42 @@ let temp_dict = {
   Lastthird: '02:59'
 }
 
-console.log(hour_format(temp_dict["Fajr"]))
-console.log(hour_format(temp_dict["Dhuhr"]))
-console.log(hour_format(temp_dict["Asr"]))
-console.log(hour_format(temp_dict["Midnight"]))
-console.log(hour_format(temp_dict["Isha"]))
+const getData = async () => {
+	const response = await axios.get(
+		`http://api.aladhan.com/v1/timings/02-10-2023?latitude=37.337496726226576&longitude=-121.78684860856757&method=2&school=1`
+	);
+
+  // console.log(response.data)
+  return response.data
+};
+
+async function getData2() {
+  return await axios.get('http://api.aladhan.com/v1/timings/02-10-2023?latitude=37.337496726226576&longitude=-121.78684860856757&method=2&school=1')
+  .then(result => {
+      //console.log(result.data) // Logs the expected data (auth token) in my console
+      // return result.data["data"]["timings"]
+      let output_dict = (result.data["data"]["timings"]);
+      for (const [key, value] of Object.entries(output_dict)) {
+        output_dict[key] = hour_format(value);
+      }
+      return output_dict;
+  })
+}
+
+/*
+token = getData2()
+// console.log(token)
+token.then(result => {
+  console.log(result) // Logs the expected data (auth token) in my console
+})
+*/
+
+const coordinates = new adhan.Coordinates(37.33746814100603, -121.78669145808736);
+var params = adhan.CalculationMethod.NorthAmerica();
+params.madhab = adhan.Madhab.Hanafi;
+const date = new Date();
+const prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+console.log(prayerTimes)
+console.log(moment(prayerTimes.fajr).tz('America/Los_Angeles').format('h:mma'))
+
+

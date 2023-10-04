@@ -6,27 +6,6 @@
 }
 */
 
-// reformats dictionary of times to include am/pm
-// returns complete dictionary
-function reformat_times_dict(input_dict) {
-    
-    try {
-        if (ampm = (input_dict["fajr_start"].split(':')[1]).slice(2,4) == "am") {
-            return input_dict;
-        }
-    } catch (error) {
-        //pass 
-    }
-
-    input_dict["Fajr"] = input_dict["Fajr"].concat("am");
-
-    input_dict["Asr"] = input_dict["Asr"].concat("pm");
-    input_dict["Maghrib"] = input_dict["Maghrib"].concat("pm");
-    input_dict["Isha"] = input_dict["Isha"].concat("pm");
-    
-    return input_dict;
-}
-
 // converts individual time with am/pm into number of minutes after 12am
 function convert_time(input_time) {
 
@@ -34,19 +13,19 @@ function convert_time(input_time) {
     ampm = (input_time.split(':')[1]).slice(2,4);
     minutes = parseInt((input_time.split(':')[1]).slice(0,2));
     temp_hour = input_time.split(':')[0]
-
+  
     if (ampm == "am") {
         // at 12am, set hour to 0
         // else, set hour to hour
         if (temp_hour == '12') {hour = 0} else {hour = parseInt(temp_hour)}
     }
-
+  
     if (ampm == "pm") {
         // at 12pm, set hour to 12
         // else, set hour + 12
         if (temp_hour == '12') {hour = parseInt(temp_hour)} else {hour = parseInt(temp_hour) + 12}
     }
-
+  
     return (hour * 60 + minutes)
 }
 
@@ -69,10 +48,10 @@ function convert_time_to_next(time_to_next) {
 
     if (time_to_next == 1){
         time_to_next_str = ('1 minute');
-
+  
     } else if ((time_to_next > 1) && (time_to_next < 60)){
         time_to_next_str = (`${time_to_next} minutes`);
-
+  
     } else if (time_to_next >= 60){
         if (time_to_next % 60 == 1){
             time_to_next_str = (`${parseInt(time_to_next / 60)} hours and 1 minute`);
@@ -107,67 +86,53 @@ function get_current_prayer(input_dict, time_str) {
     let asr_time = convert_time(input_dict['Asr']);
     let maghrib_time = convert_time(input_dict['Maghrib']);
     let isha_time = convert_time(input_dict['Isha']);
-
+  
     // use times from above to determine current prayer and next jamat
     // if before midnight, use diff method to determine time_to_next
     if (current_time >= isha_time) {
         var current_prayer = 'Isha';
         var next_prayer = 'Fajr';
-        var time_to_next = fajr_iqamah + (24 * 60 - current_time);
+        var time_to_next = fajr_time + (24 * 60 - current_time);
     } else if (current_time < fajr_time) {
         var current_prayer = 'Isha';
         var next_prayer = 'Fajr';
-        var time_to_next = fajr_iqamah - current_time;
-    } else if ((current_time >= fajr_time) && (current_time < fajr_iqamah)){
-        var current_prayer = 'Fajr';
-        var next_prayer = 'Fajr';
-        var time_to_next = fajr_iqamah - current_time;
-    } else if ((current_time >= fajr_iqamah) && (current_time < sunrise_time)){
+        var time_to_next = fajr_time - current_time;
+    } else if ((current_time >= fajr_time) && (current_time < sunrise_time)){
         var current_prayer = 'Fajr'
-        var next_prayer = 'Dhuhr'
-        var time_to_next = dhuhr_iqamah - current_time
+        var next_prayer = 'Sunrise'
+        var time_to_next = sunrise_time - current_time
     } else if ((current_time >= sunrise_time) && (current_time < dhuhr_time)){
         var current_prayer = 'Sunrise'
         var next_prayer = 'Dhuhr'
-        var time_to_next = dhuhr_iqamah - current_time
-    } else if ((current_time >= dhuhr_time) && (current_time < dhuhr_iqamah)){
-        var current_prayer = 'Dhuhr'
-        var next_prayer = 'Dhuhr'
-        var time_to_next = dhuhr_iqamah - current_time
-    } else if ((current_time >= dhuhr_iqamah) && (current_time < asr_time)){
+        var time_to_next = dhuhr_time - current_time
+    } else if ((current_time >= dhuhr_time) && (current_time < asr_time)){
         var current_prayer = 'Dhuhr'
         var next_prayer = 'Asr'
-        var time_to_next = asr_iqamah - current_time
-    } else if ((current_time >= asr_time) && (current_time < asr_iqamah)){
-        var current_prayer = 'Asr'
-        var next_prayer = 'Asr'
-        var time_to_next = asr_iqamah - current_time
-    } else if ((current_time >= asr_iqamah) && (current_time < maghrib_time)){
+        var time_to_next = asr_time - current_time
+    } else if ((current_time >= asr_time) && (current_time < maghrib_time)){
         var current_prayer = 'Asr'
         var next_prayer = 'Maghrib'
         var time_to_next = maghrib_time - current_time
     } else if ((current_time >= maghrib_time) && (current_time < isha_time)){
         var current_prayer = 'Maghrib'
         var next_prayer = 'Isha'
-        var time_to_next = isha_iqamah - current_time
-    } else if ((current_time >= isha_time) && (current_time < isha_iqamah)){
-        var current_prayer = 'Isha'
-        var next_prayer = 'Isha'
-        var time_to_next = isha_iqamah - current_time
+        var time_to_next = isha_time - current_time
     }
-
+  
     // console.log(current_prayer, next_prayer, time_to_next);
-
+  
     time_to_next_str = convert_time_to_next(time_to_next);
-
+  
     input_dict["current_prayer"] = current_prayer;
     input_dict["next_prayer"] = next_prayer;
     input_dict["time_to_next"] = time_to_next_str;
-
+    input_dict["location"] = "The Palla House";
+    input_dict["current_time"] = time_str;
+  
     // return current_prayer, next_prayer, time_to_next_str;
-
+  
     return input_dict
-
+  
 }
 
 // input month and day, returns string with date

@@ -1,7 +1,7 @@
 /* global $ */
 //import axios from 'axios';
-const axios = require("axios").default;
-const fetch = require('node-fetch');
+// const axios = require("axios").default;
+// const fetch = require('node-fetch');
 
 // import "modules/update_times_functions.js";
 
@@ -87,7 +87,7 @@ function update_times(times_dict) {
 }
 
 // 3. Get Data from API
-function fetchData() {
+async function fetchData() {
 
   let current_date_short = getDateShort(new Date())
   // console.log(current_date_short)
@@ -97,30 +97,17 @@ function fetchData() {
   let school = '1' // Hanafi = 1
   let api_address = `http://api.aladhan.com/v1/timings/${current_date_short}?latitude=${latitude}&longitude=${longitude}&method=${method}&school=${school}`
 
-  // console.log(api_address)
-
-  axios.get(api_address)
-    .then(function (response) {
-      // handle success - display returned data
-      // run other functions within this .then 
-      //     due to async
-      
-      let output_dict = (response.data["data"]["timings"]);
+  return await axios.get(api_address)
+  .then(result => {
+      //console.log(result.data) // Logs the expected data (auth token) in my console
+      // return result.data
+      let output_dict = (result.data["data"]["timings"]);
       for (const [key, value] of Object.entries(output_dict)) {
         output_dict[key] = hour_format(value);
       }
+      return output_dict;
+  })
 
-      console.log(output_dict);
-
-
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    })
-    .then(function () {
-      // always executed
-    });
 }
   
 // 4. Takes time from Prayer 
@@ -130,133 +117,55 @@ function processData(input_dict, time_date) {
 
   let times_dict = get_current_prayer(input_dict, time_date[0]);
   console.log(times_dict);
-  // update_times(times_dict);
+  update_times(times_dict);
 
 }
 
-function convert_time(input_time) {
 
-  // console.log(input_time)
-  ampm = (input_time.split(':')[1]).slice(2,4);
-  minutes = parseInt((input_time.split(':')[1]).slice(0,2));
-  temp_hour = input_time.split(':')[0]
+token = fetchData()
+// console.log(token)
+token.then(input_dict => {
+  console.log(input_dict) 
+  setInterval(function() {
+    processData(input_dict, getDateTime(new Date()));
+  }, 1 * 1000); // 1 * 1000 milsec
+}) 
 
-  if (ampm == "am") {
-      // at 12am, set hour to 0
-      // else, set hour to hour
-      if (temp_hour == '12') {hour = 0} else {hour = parseInt(temp_hour)}
-  }
 
-  if (ampm == "pm") {
-      // at 12pm, set hour to 12
-      // else, set hour + 12
-      if (temp_hour == '12') {hour = parseInt(temp_hour)} else {hour = parseInt(temp_hour) + 12}
-  }
+/*
+let temp_dict = {
+  Fajr: '05:52',
+  Sunrise: '07:03',
+  Dhuhr: '12:56',
+  Asr: '17:06',
+  Sunset: '18:49',
+  Maghrib: '18:49',
+  Isha: '20:00',
+  Imsak: '05:42',
+  Midnight: '00:56',
+  Firstthird: '22:54',
+  Lastthird: '02:59',
 
-  return (hour * 60 + minutes)
+  current_prayer: "Asr",
+  current_time: "06:40pm", 
+  next_prayer: "Maghrib",
+  time_to_next: "9 minutes",
+  location: "The Palla House"
 }
+setInterval(function() {
+  update_times(temp_dict);
+}, 1 * 1000); // 1 * 1000 milsec 
+*/
 
-function convert_time_to_next(time_to_next) {
-
-  if (time_to_next == 1){
-      time_to_next_str = ('1 minute');
-
-  } else if ((time_to_next > 1) && (time_to_next < 60)){
-      time_to_next_str = (`${time_to_next} minutes`);
-
-  } else if (time_to_next >= 60){
-      if (time_to_next % 60 == 1){
-          time_to_next_str = (`${parseInt(time_to_next / 60)} hours and 1 minute`);
-      } else {
-          time_to_next_str = (`${parseInt(time_to_next / 60)} hours and ${parseInt(time_to_next % 60)} minutes`);
-      }
-  }
-  return time_to_next_str
-}
-
-function get_current_prayer(input_dict, time_str) {
-    
-  // use convert_time function to get minute values for all times
-  // get current time
-  let current_time = convert_time(time_str);
-  // generate times for each prayer
-  let fajr_time = convert_time(input_dict['Fajr']);
-  let sunrise_time = convert_time(input_dict['Sunrise']);
-  let dhuhr_time = convert_time(input_dict['Dhuhr']);
-  let asr_time = convert_time(input_dict['Asr']);
-  let maghrib_time = convert_time(input_dict['Maghrib']);
-  let isha_time = convert_time(input_dict['Isha']);
-
-  // use times from above to determine current prayer and next jamat
-  // if before midnight, use diff method to determine time_to_next
-  if (current_time >= isha_time) {
-      var current_prayer = 'Isha';
-      var next_prayer = 'Fajr';
-      var time_to_next = fajr_time + (24 * 60 - current_time);
-  } else if (current_time < fajr_time) {
-      var current_prayer = 'Isha';
-      var next_prayer = 'Fajr';
-      var time_to_next = fajr_time - current_time;
-  } else if ((current_time >= fajr_time) && (current_time < sunrise_time)){
-      var current_prayer = 'Fajr'
-      var next_prayer = 'Sunrise'
-      var time_to_next = sunrise_time - current_time
-  } else if ((current_time >= sunrise_time) && (current_time < dhuhr_time)){
-      var current_prayer = 'Sunrise'
-      var next_prayer = 'Dhuhr'
-      var time_to_next = dhuhr_time - current_time
-  } else if ((current_time >= dhuhr_time) && (current_time < asr_time)){
-      var current_prayer = 'Dhuhr'
-      var next_prayer = 'Asr'
-      var time_to_next = asr_time - current_time
-  } else if ((current_time >= asr_time) && (current_time < maghrib_time)){
-      var current_prayer = 'Asr'
-      var next_prayer = 'Maghrib'
-      var time_to_next = maghrib_time - current_time
-  } else if ((current_time >= maghrib_time) && (current_time < isha_time)){
-      var current_prayer = 'Maghrib'
-      var next_prayer = 'Isha'
-      var time_to_next = isha_time - current_time
-  }
-
-  // console.log(current_prayer, next_prayer, time_to_next);
-
-  time_to_next_str = convert_time_to_next(time_to_next);
-
-  input_dict["current_prayer"] = current_prayer;
-  input_dict["next_prayer"] = next_prayer;
-  input_dict["time_to_next"] = time_to_next_str;
-
-  // return current_prayer, next_prayer, time_to_next_str;
-
-  return input_dict
-
-}
-
-function hour_format (input_time) {
-  let hour = parseInt(input_time.split(':')[0])
-  if (hour == 0) {
-    return `${hour + 12}:${input_time.split(':')[1]}am`
-  } else if (hour < 12) {
-    return `${hour}:${input_time.split(':')[1]}am`
-  } else if (hour == 12)  {
-    return `${hour}:${input_time.split(':')[1]}pm`
-  } else {
-    return `${hour - 12}:${input_time.split(':')[1]}pm`
-  }
-}
-
-
-fetchData();
-
+/*
 let input_dict = {
   Fajr: '5:53am',Sunrise: '7:04am',Dhuhr: '12:56pm',Asr: '5:05pm',
   Sunset: '6:47pm',Maghrib: '6:47pm',Isha: '7:59pm',Imsak: '5:43am',
-  Midnight: '12:56am',Firstthird: '10:53pm',Lastthird: '2:59am'
+  Midnight: '12:56am', Firstthird: '10:53pm', Lastthird: '2:59am'
 }
 console.log(input_dict)
 processData(input_dict, getDateTime(new Date));
-
+*/
 
 /*
 input_dict = fetchData();

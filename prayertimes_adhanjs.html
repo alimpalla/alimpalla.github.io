@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Prayer Times</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' type='text/css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css' type='text/css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Rubik&display=swap' type='text/css'>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="node_modules/adhan/lib/bundles/adhan.umd.min.js"></script>
+    <script src="node_modules/moment/moment.js"></script>
+    <script src="node_modules/moment-timezone/moment-timezone-with-data.js"></script>
+    <script src="update_data_adhanjs.js" type="text/javascript"></script>
+    <script src="update_times_functions.js" type="text/javascript"></script>
+
+
+  </head>
+
+  <body>
+
+    <!-- Show Prayer -->
+    <div class = "showCurrentPrayer">
+      <h1><span id = "currentPrayer"></span></h1>
+    </div>
+
+    <!-- Show Current Date and Time -->
+    <div class = "dateAndTime">
+      <h2 id = "currentTime"></h2>
+      <h3><span id = "timeToNext"></span> until <span id = "nextPrayer"></span></h3>
+    </div>
+
+    <br class="clear"/>
+
+    <!-- Show Each Prayer Time in a Column -->
+    <!-- use h2 but it doesnt matter, ovveride in style.css -->
+    <div class = "allTimesColumns">
+
+      <div class = "column"> <div id = "Fajr">
+        <h2 class = "prayerName">Fajr</h2>
+        <h2 class = "prayerTime" id="fajrTime"></h2>
+      </div> </div>
+
+      <div class = "column"> <div id = "Dhuhr">
+        <h2 class = "prayerName">Dhuhr</h2>
+        <h2 class = "prayerTime" id="dhuhrTime"></h2>
+      </div> </div>
+
+      <div class = "column"> <div id = "Asr">
+        <h2 class = "prayerName">Asr</h2>
+        <h2 class = "prayerTime" id="asrTime"></h2>
+      </div> </div>
+
+      <div class = "column"> <div id = "Maghrib">
+        <h2 class = "prayerName">Maghrib</h2>
+        <h2 class = "prayerTime" id="maghribTime"></h2>
+      </div> </div>
+
+      <div class = "column"> <div id = "Isha">
+        <h2 class = "prayerName">Isha</h2>
+        <h2 class = "prayerTime" id="ishaTime"></h2>
+      </div> </div> </div> 
+
+    </div>
+
+    <br class="clear"/>
+
+    <!-- box to store arabic text -->
+    <div class = "arabicBox">
+      <h3 id = "arabicText"></h3>
+    </div>
+
+    <!-- define arabic text here -->
+    <script>
+      document.getElementById('arabicText').innerText = "لَا إِلَٰهَ إِلَّا ٱللَّٰهُ مُحَمَّدٌ رَسُولُ ٱللَّٰهِ";
+    </script>
+
+    <div class = "location"><p>Location: <span id = "locationName"></span></p></div>
+
+  </body>
+
+</html>
