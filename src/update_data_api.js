@@ -116,7 +116,7 @@ async function fetchData() {
 function processData(input_dict, time_date) {
 
   let times_dict = get_current_prayer(input_dict, time_date[0]);
-  console.log(times_dict);
+  // console.log(times_dict);
   update_times(times_dict);
 
 }
