@@ -125,7 +125,7 @@ function processData(input_dict, time_date) {
 token = fetchData()
 // console.log(token)
 token.then(input_dict => {
-  console.log(input_dict) 
+  // console.log(input_dict) 
   setInterval(function() {
     processData(input_dict, getDateTime(new Date()));
   }, 1 * 1000); // 1 * 1000 milsec
