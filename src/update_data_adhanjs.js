@@ -114,11 +114,35 @@ function processData(input_dict, time_date) {
 
 }
 
-input_dict = calculate_prayertimes();
-setInterval(function() {
-  input_dict = calculate_prayertimes();
-  // console.log('longer loop check')
-}, 60 * 60 * 1000); // 60 * 60 * 1000 milsec = 1hr
-setInterval(function() {
-  processData(input_dict, getDateTime(new Date()));
-}, 1 * 1000); // 1 * 1000 milsec = 1sec
+
+function run_site() {
+  var input_dict = calculate_prayertimes();
+  setInterval(function() {
+    input_dict = calculate_prayertimes();
+    console.log('longer loop check')
+  }, 60 * 60 * 1000); // 60 * 60 * 1000 milsec = 1hr
+  setInterval(function() {
+    processData(input_dict, getDateTime(new Date()));
+  }, 1 * 1000); // 1 * 1000 milsec = 1sec
+}
+
+run_site()
+
+// from https://stackoverflow.com/a/2956980
+//   to run interval x times
+function setIntervalX(callback, delay, repetitions) {
+  var x = 0;
+  var intervalID = window.setInterval(function () {
+
+     callback();
+
+     if (++x === repetitions) {
+         window.clearInterval(intervalID);
+     }
+  }, delay);
+}
+
+// This will be repeated 5 times with 1 second intervals:
+setIntervalX(function () {
+  // Your logic here
+}, 1000, 5);
