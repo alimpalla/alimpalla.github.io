@@ -131,12 +131,6 @@ token.then(result => {
 })
 */
 
-const coordinates = new adhan.Coordinates(37.33746814100603, -121.78669145808736);
-var params = adhan.CalculationMethod.NorthAmerica();
-params.madhab = adhan.Madhab.Hanafi;
-const date = new Date();
-const prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
-console.log(prayerTimes)
-console.log(moment(prayerTimes.fajr).tz('America/Los_Angeles').format('h:mma'))
+
 
 

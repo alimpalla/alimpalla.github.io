@@ -95,7 +95,7 @@ async function fetchData() {
   let longitude = '-121.78669145808736'
   let method = '2' // ISNA = 2
   let school = '1' // Hanafi = 1
-  let api_address = `http://api.aladhan.com/v1/timings/${current_date_short}?latitude=${latitude}&longitude=${longitude}&method=${method}&school=${school}`
+  let api_address = `https://api.aladhan.com/v1/timings/${current_date_short}?latitude=${latitude}&longitude=${longitude}&method=${method}&school=${school}`
 
   return await axios.get(api_address)
   .then(result => {
